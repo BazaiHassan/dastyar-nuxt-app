@@ -125,30 +125,18 @@ const save = async () => {
   if (form.value.errors.length) return;
   isLoading.value = true;
   try {
-    const { error } = await supabase
-      .from("transactions")
-      .upsert({ ...state.value });
-    if (!error) {
-      toast.add({
-        title: "Transaction Saved",
-        icon: "i-heroicons-check-circle-solid",
-        color: "green",
-      });
-      isOpen.value = false;
-      emit("saved");
-      resetForm();
-      return;
-    }
-    throw error;
+    await supabase.from("transactions").upsert({ ...state.value });
+    emit("saved");
   } catch (e) {
     toast.add({
       title: "Transaction Not Saved",
       icon: "i-heroicons-exclamation-x-circle",
       color: "red",
     });
-    console.log(e);
   } finally {
     isLoading.value = false;
+    resetForm();
+    isOpen.value = false;
   }
 };
 
@@ -163,7 +151,7 @@ const initialState = ref({
 const state = ref({ ...initialState.value });
 
 const resetForm = () => {
-  Object.assign(state.value, initialState);
+  state.value = { ...initialState.value };
   form.value.clear();
 };
 

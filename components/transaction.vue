@@ -47,9 +47,9 @@ const color = computed(() => (isIncome.value ? "green" : "red"));
 const isLoading = ref(false);
 const toast = useToast();
 const supabase = useSupabaseClient();
+
 const deleteTransaction = async () => {
   isLoading.value = true;
-
   try {
     await supabase.from("transactions").delete().eq("id", props.transaction.id);
 

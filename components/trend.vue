@@ -24,13 +24,13 @@ const props = defineProps({
   lastAmount: Number,
   loading: Boolean,
 });
-
+const { amount } = toRefs(props);
 const trendingUpDown = computed(() => props.amount >= props.lastAmount);
 const icon = computed(() =>
   trendingUpDown.value ? "tdesign:trending-up" : "tdesign:trending-down"
 );
 const color = computed(() => (trendingUpDown.value ? "green" : "red"));
-
+const { currency } = useCurrency(amount);
 const trendingPercentage = computed(() => {
   if (props.amount === props.lastAmount) return "~ %";
 
@@ -41,8 +41,6 @@ const trendingPercentage = computed(() => {
 
   return Math.ceil(ratio) + "%";
 });
-
-const { currency } = useCurrency(props.amount);
 </script>
 
 <style scoped>
