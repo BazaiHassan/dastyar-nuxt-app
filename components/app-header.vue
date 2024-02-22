@@ -10,6 +10,18 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+const user = useSupabaseUser();
+
+watch(
+  user,
+  (user) => {
+    if (user) {
+      console.log("Signed in!!!");
+    }
+  },
+  { immediate: true }
+);
+</script>
 
 <style lang="scss" scoped></style>
